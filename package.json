@@ -1,0 +1,59 @@
+{
+  "name": "leighton-component-photo-carousel",
+  "version": "1.0.0",
+  "description": "> Microservice which handles display of any given property's photos to the Xillow Talk application.",
+  "author": "Leighton Chen",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.13.0"
+  },
+  "scripts": {
+    "start": "nodemon server/index.js",
+    "start-production": "npm run seed && node server/index.js",
+    "build": "webpack -d --watch",
+    "build-production": "webpack",
+    "generate-images": "node util/generator.js",
+    "seed": "node util/seeder.js"
+  },
+  "dependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^8.0.5",
+    "compression": "^1.7.3",
+    "css-loader": "^2.1.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "faker": "^4.1.0",
+    "morgan": "^1.9.1",
+    "mysql2": "^1.6.4",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "sequelize": "^4.42.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3"
+  },
+  "devDependencies": {
+    "eslint": "^5.13.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor.git",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "styled-components": "^4.1.3"
+  },
+  "peerDependencies": {
+    "styled-components": "^4.1.3"
+  },
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reallow-ghrsea/component-photo-carousel.git"
+  },
+  "bugs": {
+    "url": "https://github.com/reallow-ghrsea/component-photo-carousel/issues"
+  },
+  "homepage": "https://github.com/reallow-ghrsea/component-photo-carousel#readme"
+}
