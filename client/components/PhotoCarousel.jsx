@@ -12,6 +12,10 @@ import {
   NextIcon,
 } from '../styles';
 
+//url string is to be changed to blank for local host, or to the ec2 address for a deployed version 
+//original string to previous students FEC ec2 instance was ttp://ec2-13-59-200-193.us-east-2.compute.amazonaws.com
+
+const urlString = '';
 const formatCommas = (num) => {
   const str = `${num}`;
   let numberString = '';
@@ -49,17 +53,17 @@ class PhotoCarousel extends React.Component {
 
   componentDidMount() {
     const { id } = this.props;
-    fetch(`http://ec2-13-59-200-193.us-east-2.compute.amazonaws.com/api/thumb/photos/${id}`) // $SERVER_URL
+    fetch(`${urlString}/api/thumb/photos/${id}`) // $SERVER_URL
       .then(response => response.json())
       .then(links => links.map(({ url }) => url))
       .then(thumbnails => this.setState({ thumbnails }));
 
-    fetch(`http://ec2-13-59-200-193.us-east-2.compute.amazonaws.com/api/full/photos/${id}`) // $SERVER_URL
+    fetch(`${urlString}/api/full/photos/${id}`) // $SERVER_URL
       .then(response => response.json())
       .then(links => links.map(({ url }) => url))
       .then(fulls => this.setState({ fulls }));
 
-    fetch(`http://ec2-13-59-200-193.us-east-2.compute.amazonaws.com/api/basicdetails/${id}`)
+    fetch(`${urlString}/api/basicdetails/${id}`)
       .then(response => response.json())
       .then(([basicDetails]) => {
         const details = basicDetails;

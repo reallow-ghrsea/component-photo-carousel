@@ -2,7 +2,7 @@ const morgan = require('morgan');
 const express = require('express');
 const compression = require('compression');
 const db = require('./database');
-const { servicePort } = require('../config.js');
+const { port } = require('../config.js');
 
 const app = express();
 
@@ -47,4 +47,4 @@ app.get('/api/full/photos/:propertyId', (req, res) => {
     });
 });
 
-app.listen(servicePort);
+app.listen(port);
