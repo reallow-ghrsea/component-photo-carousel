@@ -47,4 +47,9 @@ app.get('/api/full/photos/:propertyId', (req, res) => {
     });
 });
 
+app.delete('/api/delist/:propertyId', (req, res) => {
+  const propertyId = Number(req.params.propertyId);
+  db.
+});
+
 app.listen(port);

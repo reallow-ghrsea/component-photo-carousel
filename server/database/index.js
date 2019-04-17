@@ -64,4 +64,10 @@ const getPhotos = id => Photo.findAll({
   },
 });
 
-module.exports = { getDetails, getPhotos };
+const deleteListing = id => {    
+  Property.destroy({
+      where: { id },
+  });
+}
+
+module.exports = { getDetails, getPhotos, deleteListing};
