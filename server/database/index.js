@@ -67,7 +67,17 @@ const getPhotos = id => Photo.findAll({
 const deleteListing = id => {    
   Property.destroy({
       where: { id },
-  });
+  })
+  Photo.destroy({
+    where: {
+      property_id: id,
+    }
+  })
 }
 
-module.exports = { getDetails, getPhotos, deleteListing};
+const updateListing = (id, changes) => {
+  Property.update(changes, { where: { id } })
+  .then( (updatedData) => {console.log(updatedData)})
+}
+
+module.exports = { getDetails, getPhotos, deleteListing, updateListing};
