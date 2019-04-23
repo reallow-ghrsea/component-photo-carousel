@@ -47,10 +47,6 @@ app.get('/api/full/photos/:propertyId', (req, res) => {
     });
 });
 
-/*
-CRUD ADDITIONS
-*/
 
-app.post('/api')
 
 app.listen(port);
