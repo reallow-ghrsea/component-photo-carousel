@@ -1,57 +1,11 @@
-const Sequelize = require('sequelize');
-const { mysqlUser, mysqlPass, mysqlHost, mysqlPort } = require('../../config');
+const { Client } = require('pg')
+const client = new Client({
+  host: localhost,
+  port: 3333,
+  database: photos
+})
 
-const sequelize = new Sequelize('xillow', mysqlUser, mysqlPass, {
-  host: mysqlHost,
-  port: mysqlPort,
-  dialect: 'mysql',
-});
-
-const Photo = sequelize.define('photo', {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false,
-  },
-  url: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  property_id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-});
-
-const Property = sequelize.define('property', {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false,
-  },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  price: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  bed_count: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  bath_count: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  sq_ft: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-});
+client.connect()
 
 const getDetails = id => Property.findAll({
   where: { id },

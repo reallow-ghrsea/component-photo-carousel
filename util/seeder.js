@@ -1,22 +1,9 @@
-const mysql = require('mysql2/promise');
-const Sequelize = require('sequelize');
 const faker = require('faker');
-const { mysqlUser, mysqlPass, mysqlHost, mysqlPort } = require('../config');
 const csvWriter = require('csv-write-stream');
 const writer = csvWriter();
 const fs = require('fs');
 
-writer.pipe(fs.createWriteStream('photos10.csv'))
-
-const mysql = require('mysql2/promise');
-const Sequelize = require('sequelize');
-const faker = require('faker');
-const { mysqlUser, mysqlPass, mysqlHost, mysqlPort } = require('../config');
-const csvWriter = require('csv-write-stream');
-const writer = csvWriter();
-const fs = require('fs');
-
-writer.pipe(fs.createWriteStream('photosTest.csv'))
+writer.pipe(fs.createWriteStream('photos-final.csv'))
 
 const createProperties = () => {
   let i = 0;
@@ -46,13 +33,13 @@ const createProperties = () => {
     let ready2Print = true;
     do {
       i++;
-      if(i === 10000000){
+      if(i === 10000001){
         writer.write(createNewProperty());
       } else {
         ready2Print = writer.write(createNewProperty());
       }
-    } while(i < 10000000 && ready2Print);
-    if(i < 10000000){
+    } while(i < 10000001 && ready2Print);
+    if(i < 10000001){
       writer.once('drain', helper);
     }
   }
@@ -84,13 +71,13 @@ const createPhotos = () => {
         listing++
         randomPhotoCount = faker.random.number({min: 10, max:15});
       }
-      if(listing === 100000){
+      if(listing === 10000001){
         writer.end();
       } else {
         ready2Print = writer.write(createPhoto());
       }
-      } while(listing < 100000 && ready2Print);
-      if(listing < 100000){
+      } while(listing < 10000001 && ready2Print);
+      if(listing < 10000001){
         writer.once('drain', helper);
       }
   }
@@ -98,3 +85,4 @@ const createPhotos = () => {
   helper();
 }
 
+createPhotos();
