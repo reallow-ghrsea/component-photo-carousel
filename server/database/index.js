@@ -16,6 +16,7 @@ pool.connect((err) => {
 });
 
 const getDetailsAndPhotos = (id, callback) => {
+  console.log(id);
  var details = pool.query(`SELECT * FROM properties WHERE id = ${id}`)
     .then( res => res.rows[0])
     .catch( e => console.log(e.stack))
@@ -23,7 +24,7 @@ const getDetailsAndPhotos = (id, callback) => {
  var photos = pool.query(`SELECT * FROM listing_photos WHERE property_id =${id}`)
     .then( res => res.rows)
     .catch( e => console.log(e.stack))
-
+ 
  Promise.all([details, photos]).then ( values => {
    callback(values);
  })

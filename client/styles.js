@@ -34,7 +34,7 @@ export const ImageContainer = styled.div`
 export const ModalContainer = styled.div`
   font-family: Gotham,gotham,Verdana,sans-serif;
   font-size: 85%;
-  display: none;
+  display: flex;
   position: fixed;
   z-index: 1;
   left: 0;

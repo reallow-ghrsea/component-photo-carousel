@@ -14,28 +14,22 @@ import {
 
 //url string is to be changed to blank for local host, or to the ec2 address for a deployed version 
 //original string to previous students FEC ec2 instance was ttp://ec2-13-59-200-193.us-east-2.compute.amazonaws.com
-
+const getListingId = () => { 
+  let id = window.location.pathname;
+  id = id.split('').filter( element => element != '/')
+  id = Number(id.join(''));
+  return id
+}
 const urlString = '';
-const formatCommas = (num) => {
-  const str = `${num}`;
-  let numberString = '';
-  for (let i = 0; i < str.length; i += 1) {
-    if (i > 0 && i % 3 === 0) {
-      numberString = `,${numberString}`;
-    }
-    numberString = str[str.length - 1 - i] + numberString;
-  }
 
-  return numberString;
-};
 
 class PhotoCarousel extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      modalView: 'none',
-      modalId: '',
+      modalView: false,
+      modalId: 0,
       beginScroll: true,
       endScroll: false,
       basicDetails: {},
@@ -52,9 +46,7 @@ class PhotoCarousel extends React.Component {
   }
 
   componentDidMount() {
-    let id  = window.location.pathname;
-    id = id.split('').filter( element => element != '/')
-    id = Number(id.join(''));
+    let id  = getListingId();
     fetch(`/api/listingGallery/${id}`)
       .then(response => response.json())
       .then( (details) => {
@@ -70,14 +62,14 @@ class PhotoCarousel extends React.Component {
 
   openModal(id) {
     this.setState({
-      modalView: 'flex',
+      modalView: true,
       modalId: id,
     });
   }
 
   closeModal() {
     this.setState({
-      modalView: 'none',
+      modalView: false,
     });
   }
 
@@ -186,9 +178,9 @@ class PhotoCarousel extends React.Component {
             </CarouselButton>
           </CarouselLeftDiv>
           <ImageContainer id="carousel">
-            {thumbnails.map((link, id) => (
+            {thumbnails.map((photo, id) => (
               <PhotoTile
-                link={link}
+                link={photo.url}
                 id={id}
                 openModal={this.openModal}
                 height={id ? '206px' : '414px'}
@@ -202,7 +194,7 @@ class PhotoCarousel extends React.Component {
             </CarouselButton>
           </CarouselRightDiv>
         </CarouselContainer>
-        <Modal
+        {this.state.modalView && <Modal
           display={modalView}
           link={fulls[modalId]}
           id={modalId}
@@ -211,7 +203,7 @@ class PhotoCarousel extends React.Component {
           btnBack={this.modalNavigateBack}
           btnNext={this.modalNavigateNext}
           details={basicDetails}
-        />
+        />}
       </ServiceContainer>
     );
   }

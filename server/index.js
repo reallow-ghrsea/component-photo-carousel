@@ -12,7 +12,7 @@ app.use('/dist', express.static('public/dist'));
 app.use('/:propertyId', express.static('public'));
 
 app.get('/api/listingGallery/:propertyId', (req, res) => {
-    const propertyId = Number(req.params.propertyId);
+    const propertyId = req.params.propertyId
     db.getDetailsAndPhotos(propertyId, (data)=> {
       res.set('Access-Control-Allow-Origin', '*');
       res.status(200).send(data)
