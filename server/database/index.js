@@ -1,36 +1,32 @@
-const { Client } = require('pg')
-const client = new Client({
-  database: 'photos'
+const { Pool } = require('pg')
+const pool = new Pool({
+  database: 'photos',
+  port: 5432,
+  host: 'localhost',
+  user: 'rorybroves',
+  password: ''
 });
 
-client.connect((err) => {
+pool.connect((err) => {
   if (err) {
     console.error('connection error', err.stack)
   } else {
     console.log('connected')
   }
-})
+});
 
-const getDetails = id => {
-  client.query(`SELECT * FROM properties WHERE id = ${id}`, (err, res) => {
-    if(err) {
-      res.status(500);
-      console.log(err)
-    } else{
-      res.send()
-    }
-  })
+const getDetailsAndPhotos = (id, callback) => {
+ var details = pool.query(`SELECT * FROM properties WHERE id = ${id}`)
+    .then( res => res.rows[0])
+    .catch( e => console.log(e.stack))
+
+ var photos = pool.query(`SELECT * FROM listing_photos WHERE property_id =${id}`)
+    .then( res => res.rows)
+    .catch( e => console.log(e.stack))
+
+ Promise.all([details, photos]).then ( values => {
+   callback(values);
+ })
 }
 
-const getPhotos = id => {
-  client.query(`SELECT * FROM listing_photos WHERE property_id = ${id}`, (err, res) => {
-    if(err){
-      res.status(500);
-      console.log(err);
-    } else {
-      res.send();
-    }
-  })
-}
-
-module.exports = { getDetails, getPhotos };
+module.exports = { getDetailsAndPhotos };

@@ -52,26 +52,20 @@ class PhotoCarousel extends React.Component {
   }
 
   componentDidMount() {
-    const { id } = this.props;
-    fetch(`${urlString}/api/thumb/photos/${id}`) // $SERVER_URL
+    let id  = window.location.pathname;
+    id = id.split('').filter( element => element != '/')
+    id = Number(id.join(''));
+    fetch(`/api/listingGallery/${id}`)
       .then(response => response.json())
-      .then(links => links.map(({ url }) => url))
-      .then(thumbnails => this.setState({ thumbnails }));
-
-    fetch(`${urlString}/api/full/photos/${id}`) // $SERVER_URL
-      .then(response => response.json())
-      .then(links => links.map(({ url }) => url))
-      .then(fulls => this.setState({ fulls }));
-
-    fetch(`${urlString}/api/basicdetails/${id}`)
-      .then(response => response.json())
-      .then(([basicDetails]) => {
-        const details = basicDetails;
-        details.price = formatCommas(details.price);
-        details.sq_ft = formatCommas(details.sq_ft);
-        return details;
+      .then( (details) => {
+        var listingDetails = details[0];
+        var listingPhotos = details[1];
+        this.setState({
+          basicDetails: listingDetails,
+          thumbnails: listingPhotos,
+          fulls: listingPhotos
+        })
       })
-      .then(basicDetails => this.setState({ basicDetails }));
   }
 
   openModal(id) {

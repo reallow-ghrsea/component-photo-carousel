@@ -11,40 +11,12 @@ app.use(compression());
 app.use('/dist', express.static('public/dist'));
 app.use('/:propertyId', express.static('public'));
 
-app.get('/api/basicdetails/:propertyId', (req, res) => {
-  const propertyId = Number(req.params.propertyId);
-  db.getDetails(propertyId)
-    .then((details) => {
+app.get('/api/listingGallery/:propertyId', (req, res) => {
+    const propertyId = Number(req.params.propertyId);
+    db.getDetailsAndPhotos(propertyId, (data)=> {
       res.set('Access-Control-Allow-Origin', '*');
-      res.status(200).send(details);
+      res.status(200).send(data)
     })
-    .catch((error) => {
-      res.status(418).send(error); // i'm a teapot
-    });
-});
-
-app.get('/api/thumb/photos/:propertyId', (req, res) => {
-  const propertyId = Number(req.params.propertyId);
-  db.getPhotos(propertyId)
-    .then((links) => {
-      res.set('Access-Control-Allow-Origin', '*');
-      res.status(200).send(links);
-    })
-    .catch((error) => {
-      res.status(418).send(error);
-    });
-});
-
-app.get('/api/full/photos/:propertyId', (req, res) => {
-  const propertyId = Number(req.params.propertyId);
-  db.getPhotos(propertyId)
-    .then((links) => {
-      res.set('Access-Control-Allow-Origin', '*');
-      res.status(200).send(links);
-    })
-    .catch((error) => {
-      res.status(418).send(error);
-    });
-});
+})
 
 app.listen(port);
