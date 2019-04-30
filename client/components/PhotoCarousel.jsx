@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PhotoTile from './PhotoTile';
 import Modal from './Modal';
@@ -12,14 +14,16 @@ import {
   NextIcon,
 } from '../styles';
 
-//url string is to be changed to blank for local host, or to the ec2 address for a deployed version 
-//original string to previous students FEC ec2 instance was ttp://ec2-13-59-200-193.us-east-2.compute.amazonaws.com
-const getListingId = () => { 
+// eslint-disable-next-line max-len
+// url string is to be changed to blank for local host, or to the ec2 address for a deployed version 
+// original string to previous students FEC ec2 instance was ttp://ec2-13-59-200-193.us-east-2.compute.amazonaws.com
+const getListingId = () => {
   let id = window.location.pathname;
-  id = id.split('').filter( element => element != '/')
+  id = id.split('').filter(element => element !== '/');
   id = Number(id.join(''));
-  return id
-}
+  return id;
+};
+
 const urlString = '';
 
 
@@ -46,18 +50,18 @@ class PhotoCarousel extends React.Component {
   }
 
   componentDidMount() {
-    let id  = getListingId();
+    const id = getListingId();
     fetch(`/api/listingGallery/${id}`)
       .then(response => response.json())
-      .then( (details) => {
-        var listingDetails = details[0];
-        var listingPhotos = details[1];
+      .then((details) => {
+        const listingDetails = details[0];
+        const listingPhotos = details[1];
         this.setState({
           basicDetails: listingDetails,
           thumbnails: listingPhotos,
-          fulls: listingPhotos
-        })
-      })
+          fulls: listingPhotos,
+        });
+      });
   }
 
   openModal(id) {
@@ -194,7 +198,8 @@ class PhotoCarousel extends React.Component {
             </CarouselButton>
           </CarouselRightDiv>
         </CarouselContainer>
-        {this.state.modalView && <Modal
+        {this.state.modalView && (
+        <Modal
           display={modalView}
           link={fulls[modalId]}
           id={modalId}
@@ -203,7 +208,8 @@ class PhotoCarousel extends React.Component {
           btnBack={this.modalNavigateBack}
           btnNext={this.modalNavigateNext}
           details={basicDetails}
-        />}
+        />
+        )}
       </ServiceContainer>
     );
   }

@@ -1,5 +1,8 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import { ModalContainer,
+import {
+  ModalContainer,
   Content,
   ModalCounter,
   ModalBar,
@@ -36,21 +39,28 @@ class Modal extends React.Component {
     this.closeModal = this.closeModal.bind(this);
   }
 
+  // eslint-disable-next-line react/sort-comp
   closeModal(event) {
+    // eslint-disable-next-line react/prop-types
     const { closeModal } = this.props;
     if (event.target.className.includes('can-close') || event.target.innerText === 'close') {
       closeModal();
     }
   }
 
-  componentDidMount(){
-    console.log(this.props)
-  }
-
   render() {
-    const { display, btnBack, btnNext, id, imageCount, link, details } = this.props;
+    // eslint-disable-next-line react/prop-types
+    const {
+      display,
+      btnBack,
+      btnNext,
+      id,
+      imageCount,
+      link,
+      details,
+    } = this.props;
     return (
-      <ModalContainer className="can-close"  onClick={this.closeModal}>
+      <ModalContainer className="can-close" onClick={this.closeModal}>
         <ModalBar>
           <ModalTabLink>
             <div>Photos</div>
@@ -80,7 +90,7 @@ class Modal extends React.Component {
             </GalleryActionItem>
           </ModalGalleryActions>
         </ModalBar>
-        <ModalLeftButton className="back" onClick={() => { btnBack(id) }}><BackIcon className="material-icons md-36">arrow_back_ios</BackIcon></ModalLeftButton>
+        <ModalLeftButton className="back" onClick={() => btnBack(id)}><BackIcon className="material-icons md-36">arrow_back_ios</BackIcon></ModalLeftButton>
         <Content>
           <ModalCounter>
             {id + 1}
@@ -89,7 +99,7 @@ class Modal extends React.Component {
           </ModalCounter>
           <img src={link.url} alt="fullsize version" />
         </Content>
-        <ModalRightButton className="forward" onClick={() => { btnNext(id) }}><NextIcon className="material-icons md-36">arrow_forward_ios</NextIcon></ModalRightButton>
+        <ModalRightButton className="forward" onClick={() => btnNext(id)}><NextIcon className="material-icons md-36">arrow_forward_ios</NextIcon></ModalRightButton>
         <ModalFooter>
           <PropertyDetails>
             {'For Sale: $'}
