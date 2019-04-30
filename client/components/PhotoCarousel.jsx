@@ -1,3 +1,4 @@
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 import React from 'react';
@@ -15,7 +16,7 @@ import {
 } from '../styles';
 
 // eslint-disable-next-line max-len
-// url string is to be changed to blank for local host, or to the ec2 address for a deployed version 
+// url string is to be changed to blank for local host, or to the ec2 address for a deployed version
 // original string to previous students FEC ec2 instance was ttp://ec2-13-59-200-193.us-east-2.compute.amazonaws.com
 const getListingId = () => {
   let id = window.location.pathname;
@@ -198,7 +199,7 @@ class PhotoCarousel extends React.Component {
             </CarouselButton>
           </CarouselRightDiv>
         </CarouselContainer>
-        {this.state.modalView && (
+        {modalView && (
         <Modal
           display={modalView}
           link={fulls[modalId]}
