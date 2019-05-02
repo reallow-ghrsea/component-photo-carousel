@@ -1,83 +1,35 @@
-const Sequelize = require('sequelize');
-const { mysqlUser, mysqlPass, mysqlHost, mysqlPort } = require('../../config');
+/* eslint-disable no-console */
+const { Pool } = require('pg');
 
-const sequelize = new Sequelize('xillow', mysqlUser, mysqlPass, {
-  host: mysqlHost,
-  port: mysqlPort,
-  dialect: 'mysql',
+const pool = new Pool({
+  database: 'photos',
+  port: 5432,
+  host: 'localhost',
+  user: 'rorybroves',
+  password: '',
 });
 
-const Photo = sequelize.define('photo', {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false,
-  },
-  url: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  property_id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
+pool.connect((err) => {
+  if (err) {
+    console.error('connection error', err.stack);
+  } else {
+    console.log('connected');
+  }
 });
 
-const Property = sequelize.define('property', {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false,
-  },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  price: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  bed_count: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  bath_count: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  sq_ft: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-});
+const getDetailsAndPhotos = (id, callback) => {
+  console.log(id);
+  const details = pool.query(`SELECT * FROM properties WHERE id = ${id}`)
+    .then(res => res.rows[0])
+    .catch(e => console.log(e.stack));
 
-const getDetails = id => Property.findAll({
-  where: { id },
-});
+  const photos = pool.query(`SELECT * FROM listing_photos WHERE property_id =${id}`)
+    .then(res => res.rows)
+    .catch(e => console.log(e.stack));
 
-const getPhotos = id => Photo.findAll({
-  attributes: ['url'],
-  where: {
-    property_id: id,
-  },
-});
+  Promise.all([details, photos]).then((values) => {
+    callback(values);
+  });
+};
 
-const deleteListing = id => {    
-  Property.destroy({
-      where: { id },
-  })
-  Photo.destroy({
-    where: {
-      property_id: id,
-    }
-  })
-}
-
-const updateListing = (id, changes) => {
-  Property.update(changes, { where: { id } })
-  .then( (updatedData) => {console.log(updatedData)})
-}
-
-module.exports = { getDetails, getPhotos, deleteListing, updateListing};
+module.exports = { getDetailsAndPhotos };
