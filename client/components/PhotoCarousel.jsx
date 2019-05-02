@@ -27,6 +27,8 @@ const getListingId = () => {
 
 const urlString = '';
 
+//EC2 container = ec2-18-223-119-4.us-east-2.compute.amazonaws.com:3000
+
 
 class PhotoCarousel extends React.Component {
   constructor(props) {

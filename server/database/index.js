@@ -4,9 +4,9 @@ const { Pool } = require('pg');
 const pool = new Pool({
   database: 'photos',
   port: 5432,
-  host: 'localhost',
-  user: 'rorybroves',
-  password: '',
+  host: 'ec2-18-223-119-4.us-east-2.compute.amazonaws.com:3000',
+  user: 'root',
+  password: 'OhMyGod',
 });
 
 pool.connect((err) => {
